@@ -79,13 +79,24 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="视睿团队技术博客">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="日常开发中，我们经常会把一个Po转化为一个Dto，或者把一个Dto转化为Po。如果类属性多了，很容易写错和写漏，而且也很烦。我们急需工具来帮助我们省去这部分开发量。  用什么工具？ 目前主流的方式大概有三种  反射设置类属性以BeanUtil为例，我们只需把两个对象的引用传入进去，工具通过反射的原理拷贝对象的值。一键完成。 注解驱动代码生成类似MapStruct(原理类似Lombok)，添加一些">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对象属性拷贝工具的选择">
+<meta property="og:url" content="http://yoursite.com/2019/03/29/对象属性拷贝工具的选择/index.html">
 <meta property="og:site_name" content="视睿团队技术博客">
+<meta property="og:description" content="日常开发中，我们经常会把一个Po转化为一个Dto，或者把一个Dto转化为Po。如果类属性多了，很容易写错和写漏，而且也很烦。我们急需工具来帮助我们省去这部分开发量。  用什么工具？ 目前主流的方式大概有三种  反射设置类属性以BeanUtil为例，我们只需把两个对象的引用传入进去，工具通过反射的原理拷贝对象的值。一键完成。 注解驱动代码生成类似MapStruct(原理类似Lombok)，添加一些">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://note.youdao.com/yws/res/1382/9943198DD810410FB3CFF2B81C81E681">
+<meta property="og:image" content="https://note.youdao.com/yws/res/1285/EAF7AAE2A2F34270BC8EB8FC04458B53">
+<meta property="og:image" content="https://note.youdao.com/yws/res/1404/11B727EACD2A451DAE568C0AEA9F4E69">
+<meta property="og:image" content="https://note.youdao.com/yws/res/1413/C53D6B03A9FF425CA6649C78C393103C">
+<meta property="og:image" content="https://note.youdao.com/yws/res/1426/F9763AB47A954698B1A66E0C7A27DE6F">
+<meta property="og:image" content="https://note.youdao.com/yws/res/1402/D91C7E61A36F486B9AE20E7E10386043">
+<meta property="og:updated_time" content="2019-03-29T01:15:08.586Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="视睿团队技术博客">
+<meta name="twitter:title" content="对象属性拷贝工具的选择">
+<meta name="twitter:description" content="日常开发中，我们经常会把一个Po转化为一个Dto，或者把一个Dto转化为Po。如果类属性多了，很容易写错和写漏，而且也很烦。我们急需工具来帮助我们省去这部分开发量。  用什么工具？ 目前主流的方式大概有三种  反射设置类属性以BeanUtil为例，我们只需把两个对象的引用传入进去，工具通过反射的原理拷贝对象的值。一键完成。 注解驱动代码生成类似MapStruct(原理类似Lombok)，添加一些">
+<meta name="twitter:image" content="https://note.youdao.com/yws/res/1382/9943198DD810410FB3CFF2B81C81E681">
 
 
 
@@ -115,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/">
+  <link rel="canonical" href="http://yoursite.com/2019/03/29/对象属性拷贝工具的选择/">
 
 
 
 
 
-  <title>视睿团队技术博客</title>
+  <title>对象属性拷贝工具的选择 | 视睿团队技术博客</title>
   
 
 
@@ -140,8 +151,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -244,9 +254,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -276,9 +286,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/29/对象属性拷贝工具的选择/" itemprop="url">对象属性拷贝工具的选择</a></h1>
+          <h1 class="post-title" itemprop="name headline">对象属性拷贝工具的选择</h1>
         
 
         <div class="post-meta">
@@ -328,9 +336,7 @@
       
 
       
-        
-          
-            <blockquote>
+        <blockquote>
 <p>日常开发中，我们经常会把一个Po转化为一个Dto，或者把一个Dto转化为Po。如果类属性多了，很容易写错和写漏，而且也很烦。我们急需工具来帮助我们省去这部分开发量。</p>
 </blockquote>
 <h2 id="用什么工具？"><a href="#用什么工具？" class="headerlink" title="用什么工具？"></a>用什么工具？</h2><blockquote>
@@ -384,8 +390,6 @@
 <li>快捷键调出 Generate 面板<br><img src="https://note.youdao.com/yws/res/1413/C53D6B03A9FF425CA6649C78C393103C" alt="image"><br>3.选择最后的<code>Get&amp;Set Commmand</code>。傻瓜机器人根据返回值生成代码。<br><img src="https://note.youdao.com/yws/res/1426/F9763AB47A954698B1A66E0C7A27DE6F" alt="image"><br>4.修修补补一下，改正编译期错误。Perfect !!<br><img src="https://note.youdao.com/yws/res/1402/D91C7E61A36F486B9AE20E7E10386043" alt="image"></li>
 </ol>
 
-          
-        
       
     </div>
     
@@ -402,12 +406,12 @@
       
 
       
+      
+      
 
       
 
       
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -417,10 +421,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -428,6 +433,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -448,8 +457,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -491,6 +509,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#用什么工具？"><span class="nav-number">1.</span> <span class="nav-text">用什么工具？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#反射设置类属性"><span class="nav-number">1.1.</span> <span class="nav-text">反射设置类属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注解驱动代码生成"><span class="nav-number">1.2.</span> <span class="nav-text">注解驱动代码生成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成动态代理类"><span class="nav-number">1.3.</span> <span class="nav-text">生成动态代理类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从几个维度思考工具"><span class="nav-number">2.</span> <span class="nav-text">从几个维度思考工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#性能"><span class="nav-number">2.1.</span> <span class="nav-text">性能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可移植性"><span class="nav-number">2.2.</span> <span class="nav-text">可移植性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#API友好度"><span class="nav-number">2.3.</span> <span class="nav-text">API友好度</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工具的通病"><span class="nav-number">3.</span> <span class="nav-text">工具的通病</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一些不太合理的规矩"><span class="nav-number">3.1.</span> <span class="nav-text">一些不太合理的规矩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#学习成本"><span class="nav-number">3.2.</span> <span class="nav-text">学习成本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#做了太多的事"><span class="nav-number">3.3.</span> <span class="nav-text">做了太多的事</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#当我有特殊需求的时候"><span class="nav-number">3.4.</span> <span class="nav-text">当我有特殊需求的时候</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决办法"><span class="nav-number">4.</span> <span class="nav-text">解决办法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#手写"><span class="nav-number">4.1.</span> <span class="nav-text">手写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工具-手写"><span class="nav-number">4.2.</span> <span class="nav-text">工具 + 手写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手写-工具"><span class="nav-number">4.3.</span> <span class="nav-text">手写 + 工具</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -624,6 +658,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
