@@ -86,17 +86,17 @@
 <meta property="og:site_name" content="视睿团队技术博客">
 <meta property="og:description" content="日常开发中，我们经常会把一个Po转化为一个Dto，或者把一个Dto转化为Po。如果类属性多了，很容易写错和写漏，而且也很烦。我们急需工具来帮助我们省去这部分开发量。  用什么工具？ 目前主流的方式大概有三种  反射设置类属性以BeanUtil为例，我们只需把两个对象的引用传入进去，工具通过反射的原理拷贝对象的值。一键完成。 注解驱动代码生成类似MapStruct(原理类似Lombok)，添加一些">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://note.youdao.com/yws/res/1382/9943198DD810410FB3CFF2B81C81E681">
-<meta property="og:image" content="https://note.youdao.com/yws/res/1285/EAF7AAE2A2F34270BC8EB8FC04458B53">
-<meta property="og:image" content="https://note.youdao.com/yws/res/1404/11B727EACD2A451DAE568C0AEA9F4E69">
-<meta property="og:image" content="https://note.youdao.com/yws/res/1413/C53D6B03A9FF425CA6649C78C393103C">
-<meta property="og:image" content="https://note.youdao.com/yws/res/1426/F9763AB47A954698B1A66E0C7A27DE6F">
-<meta property="og:image" content="https://note.youdao.com/yws/res/1402/D91C7E61A36F486B9AE20E7E10386043">
-<meta property="og:updated_time" content="2019-03-29T01:16:06.346Z">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/8a73285c7a9c9bcce099cd0c8b737ebc/9943198DD810410FB3CFF2B81C81E681?ynotemdtimestamp=1553824342054">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/8a73285c7a9c9bcce099cd0c8b737ebc/EAF7AAE2A2F34270BC8EB8FC04458B53?ynotemdtimestamp=1553824342054">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/8a73285c7a9c9bcce099cd0c8b737ebc/11B727EACD2A451DAE568C0AEA9F4E69?ynotemdtimestamp=1553824342054">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/8a73285c7a9c9bcce099cd0c8b737ebc/C53D6B03A9FF425CA6649C78C393103C?ynotemdtimestamp=1553824342054">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/8a73285c7a9c9bcce099cd0c8b737ebc/F9763AB47A954698B1A66E0C7A27DE6F?ynotemdtimestamp=1553824342054">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/8a73285c7a9c9bcce099cd0c8b737ebc/D91C7E61A36F486B9AE20E7E10386043?ynotemdtimestamp=1553824342054">
+<meta property="og:updated_time" content="2019-03-29T01:54:29.634Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="对象属性拷贝工具的选择">
 <meta name="twitter:description" content="日常开发中，我们经常会把一个Po转化为一个Dto，或者把一个Dto转化为Po。如果类属性多了，很容易写错和写漏，而且也很烦。我们急需工具来帮助我们省去这部分开发量。  用什么工具？ 目前主流的方式大概有三种  反射设置类属性以BeanUtil为例，我们只需把两个对象的引用传入进去，工具通过反射的原理拷贝对象的值。一键完成。 注解驱动代码生成类似MapStruct(原理类似Lombok)，添加一些">
-<meta name="twitter:image" content="https://note.youdao.com/yws/res/1382/9943198DD810410FB3CFF2B81C81E681">
+<meta name="twitter:image" content="https://note.youdao.com/yws/public/resource/8a73285c7a9c9bcce099cd0c8b737ebc/9943198DD810410FB3CFF2B81C81E681?ynotemdtimestamp=1553824342054">
 
 
 
@@ -348,9 +348,9 @@
 <h2 id="从几个维度思考工具"><a href="#从几个维度思考工具" class="headerlink" title="从几个维度思考工具"></a>从几个维度思考工具</h2><h3 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h3><p>第一种性能极差，程序运行时还使用反射一般都挺差的。</p>
 <p>第二种和第三种理论上不存在性能问题，因为代码或是字节码一早生成好了。</p>
 <h3 id="可移植性"><a href="#可移植性" class="headerlink" title="可移植性"></a>可移植性</h3><p>第一种和第三种兼容Kotlin。</p>
-<p>第二种可能不支持Kotlin（猜的，因为lombok不支持），因为Kt没有调用 Annatation Processor的过程。<br><img src="https://note.youdao.com/yws/res/1382/9943198DD810410FB3CFF2B81C81E681" alt="image"><br>当然肯定存在一些技巧来手动兼容一下，但是对于长远来说可能是个负担。</p>
+<p>第二种可能不支持Kotlin（猜的，因为lombok不支持），因为Kt没有调用 Annatation Processor的过程。<br><img src="https://note.youdao.com/yws/public/resource/8a73285c7a9c9bcce099cd0c8b737ebc/9943198DD810410FB3CFF2B81C81E681?ynotemdtimestamp=1553824342054" alt="image"><br>当然肯定存在一些技巧来手动兼容一下，但是对于长远来说可能是个负担。</p>
 <h3 id="API友好度"><a href="#API友好度" class="headerlink" title="API友好度"></a>API友好度</h3><p>第一个和第三个学习成本相当。第二个有比较多的注解还有一些表达式，友好度较差。看看一个生产的例子：</p>
-<p><img src="https://note.youdao.com/yws/res/1285/EAF7AAE2A2F34270BC8EB8FC04458B53" alt="image"></p>
+<p><img src="https://note.youdao.com/yws/public/resource/8a73285c7a9c9bcce099cd0c8b737ebc/EAF7AAE2A2F34270BC8EB8FC04458B53?ynotemdtimestamp=1553824342054" alt="image"></p>
 <p>当我第一次看到这段代码的时候，内心是崩溃的。</p>
 <ol>
 <li>@Mapper ： 新同事看到这个@Mapper，还误以为是MyBatis 的，并且也是接口类。 </li>
@@ -386,8 +386,8 @@
 <p><strong>总而言之，控制权还在我手上，而我又不用干活，也不用担心工具给我带来的负面影响，因为在我代码里面，体现出来的就是没有使用工具的。</strong></p>
 <p>当然这个傻瓜机器人最好的存在方式就是 Idea 插件。<br>想象一下这个使用场景，以Kotlin为例：</p>
 <ol>
-<li>我们写好了一个空方法：<br><img src="https://note.youdao.com/yws/res/1404/11B727EACD2A451DAE568C0AEA9F4E69" alt="image"></li>
-<li>快捷键调出 Generate 面板<br><img src="https://note.youdao.com/yws/res/1413/C53D6B03A9FF425CA6649C78C393103C" alt="image"><br>3.选择最后的<code>Get&amp;Set Commmand</code>。傻瓜机器人根据返回值生成代码。<br><img src="https://note.youdao.com/yws/res/1426/F9763AB47A954698B1A66E0C7A27DE6F" alt="image"><br>4.修修补补一下，改正编译期错误。Perfect !!<br><img src="https://note.youdao.com/yws/res/1402/D91C7E61A36F486B9AE20E7E10386043" alt="image"></li>
+<li>我们写好了一个空方法：<br><img src="https://note.youdao.com/yws/public/resource/8a73285c7a9c9bcce099cd0c8b737ebc/11B727EACD2A451DAE568C0AEA9F4E69?ynotemdtimestamp=1553824342054" alt="image"></li>
+<li>快捷键调出 Generate 面板<br><img src="https://note.youdao.com/yws/public/resource/8a73285c7a9c9bcce099cd0c8b737ebc/C53D6B03A9FF425CA6649C78C393103C?ynotemdtimestamp=1553824342054" alt="image"><br>3.选择最后的<code>Get&amp;Set Commmand</code>。傻瓜机器人根据返回值生成代码。<br><img src="https://note.youdao.com/yws/public/resource/8a73285c7a9c9bcce099cd0c8b737ebc/F9763AB47A954698B1A66E0C7A27DE6F?ynotemdtimestamp=1553824342054" alt="image"><br>4.修修补补一下，改正编译期错误。Perfect !!<br><img src="https://note.youdao.com/yws/public/resource/8a73285c7a9c9bcce099cd0c8b737ebc/D91C7E61A36F486B9AE20E7E10386043?ynotemdtimestamp=1553824342054" alt="image"></li>
 </ol>
 
       
