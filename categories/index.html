@@ -296,11 +296,7 @@
 
   
     <div class="comments" id="comments">
-      
-        <div id="gitment-container"></div>
-      
     </div>
-
   
 
 
@@ -552,43 +548,30 @@
 
 
 
-<!-- LOCAL: You can save these files to your site and update links -->
-    
-        
-        <link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
-        <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
-    
-<!-- END LOCAL -->
-
-    
-
-    
-      <script type="text/javascript">
-      function renderGitment(){
-        var gitment = new Gitment({
-            id: decodeURI(window.location.pathname), 
-            owner: 'shiruitech',
-            repo: 'gitment-comments',
-            
-            oauth: {
-            
-            
-                client_secret: 'c36de7f0ebd5c678d2fbdacafbfe812446417e81',
-            
-                client_id: '3870310ac19f4f178b79'
-            }});
-        gitment.render('gitment-container');
-      }
-
-      
-      renderGitment();
-      
-      </script>
-    
 
 
 
-
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'l8zFpUKkKnP050Dd0dUFanlr-gzGzoHsz',
+        appKey: 'V72yK9it7uzFFuexBxGyztxx',
+        placeholder: '欢迎交流',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
 
 
 
