@@ -559,7 +559,7 @@
       <script type="text/javascript">
       function renderGitment(){
         var gitment = new Gitment({
-            id: window.location.pathname, 
+            id: id: decodeURI(window.location.pathname), 
             owner: 'shiruitech',
             repo: 'gitment-comments',
             
