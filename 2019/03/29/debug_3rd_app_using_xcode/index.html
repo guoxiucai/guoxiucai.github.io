@@ -9,6 +9,7 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="referrer" content="never">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="theme-color" content="#222">
 
@@ -95,7 +96,8 @@
 <meta property="og:image" content="https://i.loli.net/2019/03/29/5c9d8abb1883f.png">
 <meta property="og:image" content="https://i.loli.net/2019/03/29/5c9d8ab6d3625.png">
 <meta property="og:image" content="https://i.loli.net/2019/03/29/5c9d8aba45249.png">
-<meta property="og:updated_time" content="2020-05-04T14:13:09.182Z">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/aDo39awklGpc45I80p0s8n1okrGkOT1mnicMFxuUGRh0icyicLyEquLzJCKoAKdcr7tNPQfpwYMGhCVUE1YQ58OmA/0?wx_fmt=png">
+<meta property="og:updated_time" content="2020-05-30T03:48:50.127Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用Xcode在非越狱机器上动态调试第三方APP">
 <meta name="twitter:description" content="Reveal是一款分析任意App视图结构的利器，除此之外，无需越狱，利用Xcode也可以在非越狱机器上动态调试第三方APP。">
@@ -424,6 +426,7 @@
 <ul>
 <li>若APP中有其他Extension或Watch APP可同样处理。</li>
 </ul>
+<h4 id="欢迎大家到公众号留言交流"><a href="#欢迎大家到公众号留言交流" class="headerlink" title="欢迎大家到公众号留言交流"></a>欢迎大家到公众号留言交流</h4><p><img src="https://mmbiz.qpic.cn/mmbiz_png/aDo39awklGpc45I80p0s8n1okrGkOT1mnicMFxuUGRh0icyicLyEquLzJCKoAKdcr7tNPQfpwYMGhCVUE1YQ58OmA/0?wx_fmt=png" alt="Run Script位置"></p>
 
       
     </div>
@@ -476,9 +479,8 @@
           
 
   
-    <div id="gitalk-container">
+    <div class="comments" id="comments">
     </div>
-
   
 
 
@@ -582,7 +584,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#0x00-问题起源"><span class="nav-number">1.</span> <span class="nav-text">0x00 问题起源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0x01-准备脱壳的ipa"><span class="nav-number">2.</span> <span class="nav-text">0x01 准备脱壳的ipa</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-准备一台越狱机器，并安装openSSH"><span class="nav-number">2.1.</span> <span class="nav-text">1. 准备一台越狱机器，并安装openSSH</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-获取clutch可执行文件（从源码编译或者直接下载编译好的可执行文件）"><span class="nav-number">2.2.</span> <span class="nav-text">2. 获取clutch可执行文件（从源码编译或者直接下载编译好的可执行文件）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-拷贝clutch可执行文件至越狱设备的-usr-bin-目录"><span class="nav-number">2.3.</span> <span class="nav-text">3. 拷贝clutch可执行文件至越狱设备的/usr/bin/目录</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-导出脱壳IPA"><span class="nav-number">2.4.</span> <span class="nav-text">4. 导出脱壳IPA</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-将解密后的ipa文件拷贝出来即可得到脱壳ipa"><span class="nav-number">2.5.</span> <span class="nav-text">5. 将解密后的ipa文件拷贝出来即可得到脱壳ipa</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0x02-新建一个同名空白工程"><span class="nav-number">3.</span> <span class="nav-text">0x02 新建一个同名空白工程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0x03-添加自定义脚本"><span class="nav-number">4.</span> <span class="nav-text">0x03 添加自定义脚本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0x04-动态调试第三方APP"><span class="nav-number">5.</span> <span class="nav-text">0x04 动态调试第三方APP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0x05-遇到的问题"><span class="nav-number">6.</span> <span class="nav-text">0x05 遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-clutch无执行权限"><span class="nav-number">6.1.</span> <span class="nav-text">1. clutch无执行权限</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-Plugins中一些Extension签名失败"><span class="nav-number">6.2.</span> <span class="nav-text">2. Plugins中一些Extension签名失败</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1）-删除提示错误的Plugins文件夹，一般对动态调试没有什么意义。"><span class="nav-number">6.3.</span> <span class="nav-text">1） 删除提示错误的Plugins文件夹，一般对动态调试没有什么意义。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2）-类比创建一个同名Extension，通过脚本替换成第三方app的Extension。"><span class="nav-number">6.4.</span> <span class="nav-text">2） 类比创建一个同名Extension，通过脚本替换成第三方app的Extension。</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#0x00-问题起源"><span class="nav-number">1.</span> <span class="nav-text">0x00 问题起源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0x01-准备脱壳的ipa"><span class="nav-number">2.</span> <span class="nav-text">0x01 准备脱壳的ipa</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-准备一台越狱机器，并安装openSSH"><span class="nav-number">2.1.</span> <span class="nav-text">1. 准备一台越狱机器，并安装openSSH</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-获取clutch可执行文件（从源码编译或者直接下载编译好的可执行文件）"><span class="nav-number">2.2.</span> <span class="nav-text">2. 获取clutch可执行文件（从源码编译或者直接下载编译好的可执行文件）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-拷贝clutch可执行文件至越狱设备的-usr-bin-目录"><span class="nav-number">2.3.</span> <span class="nav-text">3. 拷贝clutch可执行文件至越狱设备的/usr/bin/目录</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-导出脱壳IPA"><span class="nav-number">2.4.</span> <span class="nav-text">4. 导出脱壳IPA</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-将解密后的ipa文件拷贝出来即可得到脱壳ipa"><span class="nav-number">2.5.</span> <span class="nav-text">5. 将解密后的ipa文件拷贝出来即可得到脱壳ipa</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0x02-新建一个同名空白工程"><span class="nav-number">3.</span> <span class="nav-text">0x02 新建一个同名空白工程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0x03-添加自定义脚本"><span class="nav-number">4.</span> <span class="nav-text">0x03 添加自定义脚本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0x04-动态调试第三方APP"><span class="nav-number">5.</span> <span class="nav-text">0x04 动态调试第三方APP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0x05-遇到的问题"><span class="nav-number">6.</span> <span class="nav-text">0x05 遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-clutch无执行权限"><span class="nav-number">6.1.</span> <span class="nav-text">1. clutch无执行权限</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-Plugins中一些Extension签名失败"><span class="nav-number">6.2.</span> <span class="nav-text">2. Plugins中一些Extension签名失败</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1）-删除提示错误的Plugins文件夹，一般对动态调试没有什么意义。"><span class="nav-number">6.3.</span> <span class="nav-text">1） 删除提示错误的Plugins文件夹，一般对动态调试没有什么意义。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2）-类比创建一个同名Extension，通过脚本替换成第三方app的Extension。"><span class="nav-number">6.4.</span> <span class="nav-text">2） 类比创建一个同名Extension，通过脚本替换成第三方app的Extension。</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#欢迎大家到公众号留言交流"><span class="nav-number">7.</span> <span class="nav-text">欢迎大家到公众号留言交流</span></a></li></ol></div>
             
 
           </div>
@@ -757,22 +759,6 @@
 
 
 
-
-  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-
-  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-   <script type="text/javascript">
-        var gitalk = new Gitalk({
-          clientID: '3d73d4fe4f201d0f6efc',
-          clientSecret: '435d6daf581a14e8d01393c77c4bb59d97358a84',
-          repo: 'guoxiucai.github.io',
-          owner: 'guoxiucai',
-          admin: ['qqingweihao@163.com'],
-          id: location.pathname,
-          distractionFreeMode: 'true'
-        })
-        gitalk.render('gitalk-container')           
-       </script>
 
 
 
