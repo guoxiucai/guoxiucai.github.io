@@ -69,7 +69,7 @@
 
 
 
-  <meta name="keywords" content="NexT">
+  <meta name="keywords" content="iOS,">
 
 
 
@@ -80,17 +80,31 @@
 
 
 
-<meta name="description" content="郭秀才的技术随笔，iOS开发，移动端音视频，跨平台开发。">
-<meta name="keywords" content="技术">
-<meta property="og:type" content="website">
-<meta property="og:title" content="郭秀才聊技术">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="0x00 开篇2020注定是不平凡的一年，新冠病毒给每个行业都带来了大量的冲击和变革，很多传统行业受到了严重打击，全球倒闭或破产的中小微企业数不胜数，这是全人类的一次危机。危机危机，让我们重新拆解认识一下这个词，危机等于危险加机遇。当变革来临时，往往都是风险与机遇并存，这次疫情对一部分行业来说或是一场灾难，但对另外一些行业却是一次千载难逢的机遇。视频会议，协同办公，在线教育等产品以极低的获客成本在">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数字世界中的声音表征">
+<meta property="og:url" content="http://yoursite.com/2020/05/31/audio-characterization-in-digital-world/index.html">
 <meta property="og:site_name" content="郭秀才聊技术">
-<meta property="og:description" content="郭秀才的技术随笔，iOS开发，移动端音视频，跨平台开发。">
+<meta property="og:description" content="0x00 开篇2020注定是不平凡的一年，新冠病毒给每个行业都带来了大量的冲击和变革，很多传统行业受到了严重打击，全球倒闭或破产的中小微企业数不胜数，这是全人类的一次危机。危机危机，让我们重新拆解认识一下这个词，危机等于危险加机遇。当变革来临时，往往都是风险与机遇并存，这次疫情对一部分行业来说或是一场灾难，但对另外一些行业却是一次千载难逢的机遇。视频会议，协同办公，在线教育等产品以极低的获客成本在">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/aDo39awklGqc38gbfnxMibciaOBkqzr6zTwblOnGfFR6dPdt6EcIFrZPBMQZ9pLawAd6q9bNRzoS1RBiaA3ovjMFw/0?wx_fmt=png">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/aDo39awklGqc38gbfnxMibciaOBkqzr6zT3mOmyMNytAx0Z4USBltCwibKpeZZxgqh3ZwX6F89kYwic2GGicYLNA8jg/0?wx_fmt=png">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/aDo39awklGqc38gbfnxMibciaOBkqzr6zTVficaAk2UvGj8akzgNAf1v7squicrTbkvdkPQLO3O5spT86BRpmk5W7g/0?wx_fmt=png">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/aDo39awklGqc38gbfnxMibciaOBkqzr6zTgKicJicxotSuiaAZG69jIISAFjbszrXy2N1MB5dqcKmvn0Y2QWwnGanZg/0?wx_fmt=png">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/aDo39awklGqc38gbfnxMibciaOBkqzr6zTAxtgiczw7Mw5cmiarrzgHe5VfiaxtibEMeTNsibbaqC8ZPw1F2qaDlyTwkQ/0?wx_fmt=png">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/aDo39awklGqc38gbfnxMibciaOBkqzr6zTrPfyJU6eP17NkYNZEFTH45cSWrKBevT4oiaGZRaAGcJPX3RMicmYICmA/0?wx_fmt=png">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/aDo39awklGqc38gbfnxMibciaOBkqzr6zT6vMbFHKOpzz1JzkLwdeSvjZY3QiaEcSWMvVibBBzXX3C7gUaW9fGxyNg/0?wx_fmt=jpeg">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/aDo39awklGqc38gbfnxMibciaOBkqzr6zTtia7VbGLpsmM2R8OKc06iax8fOessEaYpuTjDLCtEwOCyibrhFvicTBOZg/0?wx_fmt=png">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/aDo39awklGqc38gbfnxMibciaOBkqzr6zTdCadj55p4t3IbILhTFXRJvvSPf8qp80k8jNA8xJrh4lAVXdSV4wR0g/0?wx_fmt=png">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/aDo39awklGqc38gbfnxMibciaOBkqzr6zTfI1F33TuztWCh2bNNEibiagFDdu4I5LrpLOzDoMLiaVwhjCDaBiag5PTVw/0?wx_fmt=png">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/aDo39awklGqc38gbfnxMibciaOBkqzr6zTR78icbZHkJgqo8jUnmarfydRvG4ic5KPRo9qYicjVjuiaqIxHCtjbAicKtw/0?wx_fmt=png">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/aDo39awklGpc45I80p0s8n1okrGkOT1mnicMFxuUGRh0icyicLyEquLzJCKoAKdcr7tNPQfpwYMGhCVUE1YQ58OmA/0?wx_fmt=png">
+<meta property="og:updated_time" content="2020-06-01T02:30:45.797Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="郭秀才聊技术">
-<meta name="twitter:description" content="郭秀才的技术随笔，iOS开发，移动端音视频，跨平台开发。">
+<meta name="twitter:title" content="数字世界中的声音表征">
+<meta name="twitter:description" content="0x00 开篇2020注定是不平凡的一年，新冠病毒给每个行业都带来了大量的冲击和变革，很多传统行业受到了严重打击，全球倒闭或破产的中小微企业数不胜数，这是全人类的一次危机。危机危机，让我们重新拆解认识一下这个词，危机等于危险加机遇。当变革来临时，往往都是风险与机遇并存，这次疫情对一部分行业来说或是一场灾难，但对另外一些行业却是一次千载难逢的机遇。视频会议，协同办公，在线教育等产品以极低的获客成本在">
+<meta name="twitter:image" content="https://mmbiz.qpic.cn/mmbiz_png/aDo39awklGqc38gbfnxMibciaOBkqzr6zTwblOnGfFR6dPdt6EcIFrZPBMQZ9pLawAd6q9bNRzoS1RBiaA3ovjMFw/0?wx_fmt=png">
 
 
 
@@ -120,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/">
+  <link rel="canonical" href="http://yoursite.com/2020/05/31/audio-characterization-in-digital-world/">
 
 
 
 
 
-  <title>郭秀才聊技术</title>
+  <title>数字世界中的声音表征 | 郭秀才聊技术</title>
   
 
 
@@ -145,8 +159,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -249,9 +262,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -281,9 +294,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/05/31/audio-characterization-in-digital-world/" itemprop="url">数字世界中的声音表征</a></h1>
+          <h1 class="post-title" itemprop="name headline">数字世界中的声音表征</h1>
         
 
         <div class="post-meta">
@@ -358,9 +369,7 @@
       
 
       
-        
-          
-            <h3 id="0x00-开篇"><a href="#0x00-开篇" class="headerlink" title="0x00 开篇"></a>0x00 开篇</h3><p>2020注定是不平凡的一年，新冠病毒给每个行业都带来了大量的冲击和变革，很多传统行业受到了严重打击，全球倒闭或破产的中小微企业数不胜数，这是全人类的一次危机。<br>危机危机，让我们重新拆解认识一下这个词，危机等于危险加机遇。当变革来临时，往往都是风险与机遇并存，这次疫情对一部分行业来说或是一场灾难，但对另外一些行业却是一次千载难逢的机遇。视频会议，协同办公，在线教育等产品以极低的获客成本在短时间内获取了海量的用户，国内外的互联网巨头也都纷纷争相布局进入这些市场，竞争也变得白热化，大的玩家进入也大大加速了市场对产品品类的认知，大幅缩短了市场培育周期。</p>
+        <h3 id="0x00-开篇"><a href="#0x00-开篇" class="headerlink" title="0x00 开篇"></a>0x00 开篇</h3><p>2020注定是不平凡的一年，新冠病毒给每个行业都带来了大量的冲击和变革，很多传统行业受到了严重打击，全球倒闭或破产的中小微企业数不胜数，这是全人类的一次危机。<br>危机危机，让我们重新拆解认识一下这个词，危机等于危险加机遇。当变革来临时，往往都是风险与机遇并存，这次疫情对一部分行业来说或是一场灾难，但对另外一些行业却是一次千载难逢的机遇。视频会议，协同办公，在线教育等产品以极低的获客成本在短时间内获取了海量的用户，国内外的互联网巨头也都纷纷争相布局进入这些市场，竞争也变得白热化，大的玩家进入也大大加速了市场对产品品类的认知，大幅缩短了市场培育周期。</p>
 <p>举个例子，停学不停课期间，几乎每个老师和学生都熟悉了在线教育这种教学形态；这届本科生、研究生和博士生毕业班的云答辩几乎都使用了视频会议系统(譬如腾讯会议)，学生和老师都在短时间内认识并掌握了视频会议这种产品形态。人的习惯一旦养成，在很长一段时间内都会刻在骨子里，就像现在我回家的第一件事就是使用硫磺皂去洗手，所以即便是未来疫情结束，这种习惯和认知也会保留下来。</p>
 <p>再来看2020年3~5月份2则有代表性的新闻。</p>
 <ol>
@@ -452,8 +461,6 @@
 </ol>
 <h3 id="欢迎大家到我的公众号留言交流"><a href="#欢迎大家到我的公众号留言交流" class="headerlink" title="欢迎大家到我的公众号留言交流"></a>欢迎大家到我的公众号留言交流</h3><p><img src="https://mmbiz.qpic.cn/mmbiz_png/aDo39awklGpc45I80p0s8n1okrGkOT1mnicMFxuUGRh0icyicLyEquLzJCKoAKdcr7tNPQfpwYMGhCVUE1YQ58OmA/0?wx_fmt=png" alt="公众号"></p>
 
-          
-        
       
     </div>
     
@@ -468,163 +475,36 @@
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/29/debug_3rd_app_using_xcode/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="郭秀才">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="郭秀才聊技术">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/29/debug_3rd_app_using_xcode/" itemprop="url">利用Xcode在非越狱机器上动态调试第三方APP</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-29T10:54:52+08:00">
-                2019-03-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          <span> ｜ </span><span class="fa fa-user-o"> </span><span style="color:#222;"> 郭秀才</span> 
-
+        <div class="post-tags">
           
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/移动开发/" itemprop="url" rel="index">
-                    <span itemprop="name">移动开发</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
           
-
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
+      
 
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+      
       
       
 
       
-        
-          Reveal是一款分析任意App视图结构的利器，除此之外，无需越狱，利用Xcode也可以在非越狱机器上动态调试第三方APP。
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/03/29/debug_3rd_app_using_xcode/">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/29/debug_3rd_app_using_xcode/" rel="next" title="利用Xcode在非越狱机器上动态调试第三方APP">
+                <i class="fa fa-chevron-left"></i> 利用Xcode在非越狱机器上动态调试第三方APP
+              </a>
+            
           </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
 
-    
+          <span class="post-nav-divider"></span>
 
-    
-
-    
-
-    <footer class="post-footer">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
       
 
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -634,10 +514,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -645,6 +526,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -665,8 +553,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -726,6 +623,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#0x00-开篇"><span class="nav-number">1.</span> <span class="nav-text">0x00 开篇</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x01-什么是声音？"><span class="nav-number">2.</span> <span class="nav-text">0x01 什么是声音？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x02-声音的表征方法"><span class="nav-number">3.</span> <span class="nav-text">0x02 声音的表征方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-时域和频域"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 时域和频域</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-模数转换"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 模数转换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-采样率"><span class="nav-number">3.3.</span> <span class="nav-text">2.3 采样率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-位深-采样深度，量化深度"><span class="nav-number">3.4.</span> <span class="nav-text">2.4 位深(采样深度，量化深度)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-声道数"><span class="nav-number">3.5.</span> <span class="nav-text">2.5 声道数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-码率"><span class="nav-number">3.6.</span> <span class="nav-text">2.6 码率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-7-压缩编码"><span class="nav-number">3.7.</span> <span class="nav-text">2.7 压缩编码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-8-Frame和Packet"><span class="nav-number">3.8.</span> <span class="nav-text">2.8 Frame和Packet</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x03-小结"><span class="nav-number">4.</span> <span class="nav-text">0x03 小结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x04-系列文章预告"><span class="nav-number">5.</span> <span class="nav-text">0x04 系列文章预告</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#欢迎大家到我的公众号留言交流"><span class="nav-number">6.</span> <span class="nav-text">欢迎大家到我的公众号留言交流</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -853,6 +766,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
