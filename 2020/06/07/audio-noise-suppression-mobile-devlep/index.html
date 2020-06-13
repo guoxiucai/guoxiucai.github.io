@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="referrer" content="never">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="音频降噪更是一种闹中取静的艺术，浮世喧嚣，红尘纷扰，我们往往变得浮躁不安，闹中取静，能让我们看清内心，寻回本心。本文主要介绍音频降噪在移动开发中的实践：WebRTC NS和RNNoise。">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="闹中取静——移动端音频降噪实践">
+<meta property="og:url" content="http://yoursite.com/2020/06/07/audio-noise-suppression-mobile-devlep/index.html">
+<meta property="og:site_name" content="郭秀才聊技术">
+<meta property="og:description" content="音频降噪更是一种闹中取静的艺术，浮世喧嚣，红尘纷扰，我们往往变得浮躁不安，闹中取静，能让我们看清内心，寻回本心。本文主要介绍音频降噪在移动开发中的实践：WebRTC NS和RNNoise。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/aDo39awklGpjnd8N8zh6ZHPickQgFjbmRKgdjxapRDNwpWibE5AexPjS81IzBJSoEs6GPXMZ57YbLdPhA4KXqB4Q/0?wx_fmt=jpeg">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/aDo39awklGpjnd8N8zh6ZHPickQgFjbmRMCkdLuTFyiaWJJkRI0FiaymNnOPcD1jxoW5xdPYflzx6lnag4LXtiab6w/0?wx_fmt=jpeg">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/aDo39awklGpjnd8N8zh6ZHPickQgFjbmRAXVHsTBfXyRySxOTPicc4O64W7fbibNtDfdHx6jHxh5XkiaNGlsqb7haw/0?wx_fmt=png">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/aDo39awklGpjnd8N8zh6ZHPickQgFjbmR6yfup9qq540OILb7V7EkibCIMF1Tbx61uCMMLyc8pBF2KTr8eQpTUgw/0?wx_fmt=png">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/aDo39awklGpjnd8N8zh6ZHPickQgFjbmR5a4qN5QmhA5duicnJXoAgQXwPKDQ8QqH4Nro1NcTbblAssAgF7TCO5g/0?wx_fmt=png">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/aDo39awklGpjnd8N8zh6ZHPickQgFjbmRtrBQFSNqPic4R8xfVsJTerW7yO3eb3tzDoV5uXFCWQzTYPMkbMdl0Zg/0?wx_fmt=jpeg">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/aDo39awklGpc45I80p0s8n1okrGkOT1mnicMFxuUGRh0icyicLyEquLzJCKoAKdcr7tNPQfpwYMGhCVUE1YQ58OmA/0?wx_fmt=png">
+<meta property="og:updated_time" content="2020-06-13T03:26:44.188Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="闹中取静——移动端音频降噪实践">
+<meta name="twitter:description" content="音频降噪更是一种闹中取静的艺术，浮世喧嚣，红尘纷扰，我们往往变得浮躁不安，闹中取静，能让我们看清内心，寻回本心。本文主要介绍音频降噪在移动开发中的实践：WebRTC NS和RNNoise。">
+<meta name="twitter:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/aDo39awklGpjnd8N8zh6ZHPickQgFjbmRKgdjxapRDNwpWibE5AexPjS81IzBJSoEs6GPXMZ57YbLdPhA4KXqB4Q/0?wx_fmt=jpeg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/06/07/audio-noise-suppression-mobile-devlep/">
+
+
+
+
+
+  <title>闹中取静——移动端音频降噪实践 | 郭秀才聊技术</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">郭秀才聊技术</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">移动开发，音视频，跨平台，技术随笔</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/07/audio-noise-suppression-mobile-devlep/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="郭秀才">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="郭秀才聊技术">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">闹中取静——移动端音频降噪实践</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-07T14:35:15+08:00">
+                2020-06-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          <span> ｜ </span><span class="fa fa-user-o"> </span><span style="color:#222;"> 郭秀才</span> 
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/音视频/" itemprop="url" rel="index">
+                    <span itemprop="name">音视频</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  音频降噪更是一种闹中取静的艺术，浮世喧嚣，红尘纷扰，我们往往变得浮躁不安，闹中取静，能让我们看清内心，寻回本心。本文主要介绍音频降噪在移动开发中的实践：WebRTC NS和RNNoise。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="0x00-引言"><a href="#0x00-引言" class="headerlink" title="0x00 引言"></a>0x00 引言</h3><p>2018~2020年，全球音视频类应用和用户数飞速增长。今年年初的新冠病毒蔓延，直接又导致全球约20~30亿的人口进行居家隔离，一度，这些人的学习、工作和生活都从线下转移到了线上，人类初步完成学习和工作线上化迁移。在这场变革中，音视频技术助力众多产业转型升级，众多的新兴场景与行业借助音视频技术实现了更加丰富炫目高效准确的场景表达与业务落地，与此同时，音视频技术的市场规模也一跃跳至千亿，万亿级，成为了新基建的重要基础技术。</p>
+<p>上篇文章<a href="https://guoxiucai.github.io/2020/05/31/audio-characterization-in-digital-world/" target="_blank" rel="noopener">数字世界中的声音表征</a>，介绍了音视频领域中音频的基础理论和实践，本篇中我们主要讨论音频处理维度的一个进阶知识点：音频降噪。</p>
+<p>音频降噪（噪声抑制，Active Noise Control, ANC）与回声消除（Acoustic Echo Cancelling，AEC）、自动增益（Automatic Gain Control，AGC）并列称为音频处理领域的3A算法。音频降噪技术已广泛应用于微课录制，语音聊天，视频会议，在线教育，直播等领域的音频前处理阶段。</p>
+<p>从计算机数字领域到哲学领域，音频降噪更是一种闹中取静的艺术。万物纷杂，极似组成声音的各种不同频率的正弦波，浮世喧嚣，红尘纷扰，我们往往变得浮躁不安，闹中取静（降噪），能让我们看清内心，寻回本心。</p>
+<h3 id="0x01-业务背景"><a href="#0x01-业务背景" class="headerlink" title="0x01 业务背景"></a>0x01 业务背景</h3><p>业务需求是推动技术和架构进步的根本源动力，这里我先介绍一些对音频降噪研究的业务需求背景：知识胶囊。<br>知识胶囊是什么？可以先点击下面的链接体验一下。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/aDo39awklGpjnd8N8zh6ZHPickQgFjbmRKgdjxapRDNwpWibE5AexPjS81IzBJSoEs6GPXMZ57YbLdPhA4KXqB4Q/0?wx_fmt=jpeg" alt="知识胶囊图片"></p>
+<p>知识胶囊是一种集成了课件互动功能的新型微课。区别与传统微课，胶囊将课件的行为回放和授课录音巧妙地融合在一起，并以一种时间同步策略进行回放。在胶囊里既可以像传统微课一样观看老师授课精彩过程，也可以让学生参互动，单独操作课件。</p>
+<p>这里打个小广告，用希沃白板APP即可方便地录制知识胶囊，欢迎大家下载体验。<br>全中国已有越来越多的老师和学生使用知识胶囊这种新的具有互动功能的微课来授课和学习。</p>
+<p><a href="https://easinote.seewo.com/m/app" target="_blank" rel="noopener">点击下载希沃白板APP</a></p>
+<p>在知识胶囊的录制过程中，声音的录制是一个关键的部分。移动终端设备的麦克风拾音效果明显好于普通PC电脑上自带的，我们最开始使用移动终端设备录制得到原始的PCM数据，录制的环境是一个略有嘈杂的办公室环境(这里有键盘敲击声，小组问题讨论声，风扇声音，走廊外面人的走路回声)，在对PCM进行回放时能听到很明显的背景噪声：键盘敲击声，远处讨论问题的声音等，下面是一个典型的例子。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/aDo39awklGpjnd8N8zh6ZHPickQgFjbmRMCkdLuTFyiaWJJkRI0FiaymNnOPcD1jxoW5xdPYflzx6lnag4LXtiab6w/0?wx_fmt=jpeg" alt="有噪声的音频示例"></p>
+<p>显然作为微课，我们并不希望这些噪声太过于突出，甚至掩盖了老师讲授知识点的声音。我们需要寻找一种去除背景噪声的方法。</p>
+<h3 id="0x02-移动端音频降噪实践"><a href="#0x02-移动端音频降噪实践" class="headerlink" title="0x02 移动端音频降噪实践"></a>0x02 移动端音频降噪实践</h3><h4 id="2-1-目标和原理"><a href="#2-1-目标和原理" class="headerlink" title="2.1 目标和原理"></a>2.1 目标和原理</h4><p>依托业务，声音降噪的目标是：在对需要的语音造成最小失真的前提下，尽可能的将噪声从含噪信号中去除。 </p>
+<p>在上篇文章中，我们知道声音其实也是一种波，是由不同频率的正弦波叠加而成。所以音频降噪本质上就是想办法去除掉代表噪声的某些正弦波。<br>音频降噪的基本原理：对数字音频信号进行频谱分析，得到噪声的强度和频谱分布，然后根据这个模型就能设计一个滤波器，过滤掉噪音，得到更加突出的主体声。</p>
+<h4 id="2-2-降噪实践"><a href="#2-2-降噪实践" class="headerlink" title="2.2 降噪实践"></a>2.2 降噪实践</h4><p>音频降噪算法，网上公开的算法不多，资源也比较有限。在iOS和Android的系统API中，也没有提供方便易用的降噪算法实现（回声消除的支持倒是有的，且效果显著）。<br>Speex是一套主要针对语音的开源免费（BSD授权）的应用集合，其中包含了编解码器、VAD（语音检测）、AEC（回声消除）和NS（降噪）等实用模块，因而我们可以在商业应用中使用Speex进行声音降噪的处理。</p>
+<p>Google在2011做了一件好事，开源了WebRTC（目前已经基本成为了W3C规范），随着WebRTC开源出来的，还有一大堆音视频部分的算法实现，其中就包含音频降噪的代码。WebRTC中的音频降噪部分的代码是C语言实现的，因而在不同的平台（arm和x86）具有良好的兼容性。<br>业务上，声音降噪是跟场景强相关的，例如在安静的会议室和在嘈杂的商场，采取的降噪算法和策略会明显不同，伴随着机器学习和神经网络的发展，也出现另一些对业务场景音频数据进行学习和训练，逐步优化降噪效果的降噪算法，例如RNNoise，也有人利用TensorFlow对音频降噪效果进行优化。</p>
+<p>开发Speex的Xiph.org基金会已经宣布废弃Speex，建议改用Opus取代，所以本篇文章不再对基于Speex的降噪做过多的介绍，感兴趣的同学请移步<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. https://www.speex.org/ </span><br><span class="line">2. https://www.shuzhiduo.com/A/Gkz14A9gdR/。</span><br></pre></td></tr></table></figure></p>
+<p>本篇我会侧重介绍基于WebRTC的音频降噪实现，对于RNNoise，我会分享一段实际调用和验证的代码。</p>
+<p><strong>WebRTC NS</strong><br>噪声抑制在WebRTC中有两个版本，一个是浮点数版本，一个是定点数版本。需要根据业务场景采集的原始PCM数据的格式来确定使用哪个版本。大部分业务场景，包括我们的胶囊录制场景，用定点数版本足矣，所以本篇我只会介绍定点数版本的移植和使用。</p>
+<p>第一步是将NS的代码从WebRTC的庞大源码里抽离出来，并解除对其他文件的依赖，保证可以单独编译和使用。</p>
+<p>最新的WebRTC源码中，NS相关的代码位于下面的目录中：</p>
+<p><a href="https://webrtc.googlesource.com/src/+/refs/heads/master/modules/audio_processing/ns/" target="_blank" rel="noopener">https://webrtc.googlesource.com/src/+/refs/heads/master/modules/audio_processing/ns/</a></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/aDo39awklGpjnd8N8zh6ZHPickQgFjbmRAXVHsTBfXyRySxOTPicc4O64W7fbibNtDfdHx6jHxh5XkiaNGlsqb7haw/0?wx_fmt=png" alt="NS源码图片"></p>
+<p>下面是我从WebRTC源码中抽离出来的NS代码，精简为两个文件，无其他依赖，可以单独编译和使用。</p>
+<p><a href="https://github.com/guoxiucai/AudioAndVideo/NoiseSuppression/sdk/src" target="_blank" rel="noopener">https://github.com/guoxiucai/AudioAndVideo/NoiseSuppression/sdk/src</a></p>
+<p>第二步是熟悉API使用说明，这里直接与代码一起解释说明</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">NsHandle *nsHandle = WebRtcNs_Create();</span><br><span class="line">WebRtcNs_Init(nsHandle, 16000);  // 初始化</span><br><span class="line">WebRtcNs_set_policy(nsHandle, 2); // 降噪等级，0~3</span><br><span class="line"></span><br><span class="line">int num_bands = 1;</span><br><span class="line">int16_t *nsIn[1] = &#123;pcm_buffer&#125;;        // 原始音频数据</span><br><span class="line">int16_t *nsOut[1] = &#123;denoised_buffer&#125;;  // 降噪之后的音频数据</span><br><span class="line"></span><br><span class="line">WebRtcNs_Analyze(nsHandle, nsIn[0]);    // 音频分析</span><br><span class="line"></span><br><span class="line">WebRtcNs_Process(nsHandle, (const int16_t *const *) nsIn, num_bands, nsOut); // 实际的降噪处理</span><br><span class="line"></span><br><span class="line">......</span><br><span class="line"></span><br><span class="line">WebRtcNs_Free(nsHandle);</span><br></pre></td></tr></table></figure>
+<p><strong>需要注意的一点</strong>，音频处理时WebRTC一次仅能处理10ms数据, 小于10ms的数据不要传入，因为即使是传入小于10ms的数据最后传入也是按照10ms的数据传出，此时会出现问题。另外支持的采样率也只有8K，16K,32K, 48K四种，不论是降噪模块，或者是回声消除增益等等均是如此。对于8000采样率，16bit的音频数据，10ms的时间采样点就是80个，一个采样点16bit也就是两个字节，那么需要传入WebRtcNsx_Process的数据就是160字节。</p>
+<p>采样得到的PCM音频数据，需要自己采用队列模型控制，保证每次处理时处理10ms的数据。</p>
+<p>第三步分享一个iOS项目的实际使用范例，由于是C源码，Android中使用需要借助于JNI。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)noiseSuppression &#123;</span><br><span class="line">    self.configuration.audioSampleRate = CVTAudioSampleRate16000Hz;</span><br><span class="line">    self.configuration.numberOfChannels = CVTAudioChannalMono;</span><br><span class="line">    self.configuration.audioBitDepth = CVTAudioBitDepth16;</span><br><span class="line">    </span><br><span class="line">    self.pcmPath = [self getSourcePath];    <span class="comment">//原始音频文件</span></span><br><span class="line">    self.dstPath = [self getOutPath];       <span class="comment">//降噪后文件 </span></span><br><span class="line">    </span><br><span class="line">    NSLog(@<span class="string">"pcm file path:%@, dst file path:%@"</span>, self.pcmPath, self.dstPath);</span><br><span class="line">    </span><br><span class="line">    [self openFile]; <span class="comment">//打开原始WAV文件</span></span><br><span class="line"></span><br><span class="line">    dispatch_async(self.taskQueue, ^&#123;</span><br><span class="line">        @<span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">int</span> read;</span><br><span class="line">            </span><br><span class="line">            FILE *pcm = fopen([self.pcmPath cStringUsingEncoding:<span class="number">1</span>], <span class="string">"rb"</span>);</span><br><span class="line">            fseek(pcm, <span class="number">44</span>, SEEK_CUR);</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> (pcm == <span class="literal">NULL</span> ) &#123;</span><br><span class="line">                NSLog(@<span class="string">"open pcm file failed!"</span>);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">int</span> read_sample_count = self.configuration.audioSampleRate / <span class="number">1000</span> * <span class="number">10</span>;</span><br><span class="line">            read_sample_count = read_sample_count &gt; <span class="number">160</span> ? <span class="number">160</span> : read_sample_count; <span class="comment">//最大支持160</span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">int</span> num_bands = <span class="number">1</span>;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">short</span> <span class="keyword">int</span> pcm_buffer[read_sample_count];</span><br><span class="line">            <span class="keyword">short</span> <span class="keyword">int</span> nsed_buffer[read_sample_count];</span><br><span class="line">            </span><br><span class="line">            </span><br><span class="line">            NsHandle *nsHandle = WebRtcNs_Create();</span><br><span class="line">            <span class="keyword">int</span> status = WebRtcNs_Init(nsHandle, self.configuration.audioSampleRate);</span><br><span class="line">            <span class="keyword">if</span> (status != <span class="number">0</span>) &#123;</span><br><span class="line">                NSLog(@<span class="string">"WebRtcNs_Init fail!"</span>);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            status = WebRtcNs_set_policy(nsHandle, <span class="number">2</span>);</span><br><span class="line">            <span class="keyword">if</span> (status != <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">"WebRtcNs_set_policy fail\n"</span>);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">do</span> &#123;</span><br><span class="line">                </span><br><span class="line">                <span class="comment">// in LPCM  frames == samples</span></span><br><span class="line">                <span class="keyword">int</span> bytesPerSample = self.configuration.audioBitDepth * self.configuration.numberOfChannels / <span class="number">8</span>; <span class="comment">// = 2</span></span><br><span class="line">                </span><br><span class="line">                read = (<span class="keyword">int</span>)fread(pcm_buffer, bytesPerSample, read_sample_count, pcm);</span><br><span class="line">                </span><br><span class="line">                NSLog(@<span class="string">"read=%@, read_sample_count=%@"</span>, @(read), @(read_sample_count));</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> (read != read_sample_count) &#123;</span><br><span class="line">                    <span class="comment">// 不做处理，直接丢弃(也可以不降噪直接写到文件中去)</span></span><br><span class="line">                    NSLog(@<span class="string">"read != read_sample_count 丢弃处理"</span>);</span><br><span class="line">                    </span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="comment">//读了read个</span></span><br><span class="line">                    <span class="keyword">int16_t</span> *nsIn[<span class="number">1</span>] = &#123;pcm_buffer&#125;;   <span class="comment">//ns input[band][data]</span></span><br><span class="line">                    <span class="keyword">int16_t</span> *nsOut[<span class="number">1</span>] = &#123;nsed_buffer&#125;;  <span class="comment">//ns output[band][data]</span></span><br><span class="line">                    WebRtcNs_Analyze(nsHandle, nsIn[<span class="number">0</span>]);</span><br><span class="line">                    WebRtcNs_Process(nsHandle, (<span class="keyword">const</span> <span class="keyword">int16_t</span> *<span class="keyword">const</span> *) nsIn, num_bands, nsOut);</span><br><span class="line">                    </span><br><span class="line">                    NSData *data = [NSData dataWithBytes:nsed_buffer length:read * bytesPerSample];</span><br><span class="line">                    [self.fileHandle writeData:data];</span><br><span class="line">                &#125;</span><br><span class="line">                </span><br><span class="line">            &#125; <span class="keyword">while</span> (read != <span class="number">0</span>);</span><br><span class="line">            </span><br><span class="line">            [self closeFile]; <span class="comment">//关闭原始WAV文件</span></span><br><span class="line">            fclose(pcm);</span><br><span class="line">            WebRtcNs_Free(nsHandle);</span><br><span class="line">        &#125; @<span class="keyword">catch</span> (NSException *exception) &#123;</span><br><span class="line">            NSLog(@<span class="string">"出现错误%@"</span>,[exception description]);</span><br><span class="line">            </span><br><span class="line">        &#125; @finally &#123;</span><br><span class="line">            NSLog(@<span class="string">"finally ns 结束"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>RNNoise</strong></p>
+<p>RNNoise将经典信号处理与深度学习相结合来创造一个又小又快的实时噪声抑制算法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/cpuimage/rnnoise。</span><br></pre></td></tr></table></figure></p>
+<p>RNNoise对GPU的要求不高，可在Raspberry Pi上轻松运行。结果十分简单，并且比传统噪声抑制系统听起来要强很多(参考第3部分的频域对比分析)，支持针对场景进行训练。</p>
+<p><strong>注意</strong>：RNNoise目前只支持48K采样率。</p>
+<p>RNNoise将降噪接口定义成rnnoise_init、rnnoise_create、rnnoise_process_frame、rnnoise_destroy四个重要接口。</p>
+<p>API代码范例<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"rnnoise.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FRAME_SIZE 480</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> i;</span><br><span class="line">  <span class="keyword">int</span> first = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">float</span> x[FRAME_SIZE];</span><br><span class="line">  FILE *f1, *fout;</span><br><span class="line">  DenoiseState *st;</span><br><span class="line">  st = rnnoise_create();</span><br><span class="line">  <span class="keyword">if</span> (argc!=<span class="number">3</span>) &#123;</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"usage: %s &lt;noisy speech&gt; &lt;output denoised&gt;\n"</span>, argv[<span class="number">0</span>]);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  f1 = fopen(argv[<span class="number">1</span>], <span class="string">"r"</span>);</span><br><span class="line">  fout = fopen(argv[<span class="number">2</span>], <span class="string">"w"</span>);</span><br><span class="line">  <span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">short</span> tmp[FRAME_SIZE];</span><br><span class="line">    fread(tmp, <span class="keyword">sizeof</span>(<span class="keyword">short</span>), FRAME_SIZE, f1);</span><br><span class="line">    <span class="keyword">if</span> (feof(f1)) <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;FRAME_SIZE;i++) x[i] = tmp[i];</span><br><span class="line">    rnnoise_process_frame(st, x, x);</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;FRAME_SIZE;i++) tmp[i] = x[i];</span><br><span class="line">    <span class="keyword">if</span> (!first) fwrite(tmp, <span class="keyword">sizeof</span>(<span class="keyword">short</span>), FRAME_SIZE, fout);</span><br><span class="line">    first = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  rnnoise_destroy(st);</span><br><span class="line">  fclose(f1);</span><br><span class="line">  fclose(fout);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="0x03-降噪效果分析"><a href="#0x03-降噪效果分析" class="headerlink" title="0x03 降噪效果分析"></a>0x03 降噪效果分析</h3><p>上面介绍的几种对音频降噪的方法实践，降噪的效果到底如何呢？ 我们需要一些对降噪效果进行有效评价的方法。对于典型的业务场景，如在线直播，视频会议等，直接用人耳就要可以听出降噪前后的明显差异；结合上一篇文章中，音频有时域和频域维度的表征，所以也可以通过观察对比降噪前后的波形图或频谱图来进行更加可视化的对比评价。</p>
+<h4 id="3-1-主观感受"><a href="#3-1-主观感受" class="headerlink" title="3.1 主观感受"></a>3.1 主观感受</h4><p>在同样的办公室噪音环境下通过开启和关闭降噪功能，然后对录制得到的WAV文件进行播放，对比结果如下</p>
+<p><a href="https://raw.githubusercontent.com/guoxiucai/AudioAndVideo/master/Resourses/16kHz_origin.wav" target="_blank" rel="noopener">16kHz_origin.wav</a></p>
+<audio id="audio" controls preload="none"><br><source id="16kHz_origin" src="https://raw.githubusercontent.com/guoxiucai/AudioAndVideo/master/Resourses/16kHz_origin.wav"><br></audio>
+
+<p><a href="https://raw.githubusercontent.com/guoxiucai/AudioAndVideo/master/Resourses/16kHz_denoise_level1.wav" target="_blank" rel="noopener">16kHz_denoise_level1.wav</a></p>
+<audio id="audio" controls preload="none"><br><source id="16kHz_origin" src="https://raw.githubusercontent.com/guoxiucai/AudioAndVideo/master/Resourses/16kHz_denoise_level1.wav"><br></audio>
+
+<p><a href="https://raw.githubusercontent.com/guoxiucai/AudioAndVideo/master/Resourses/16kHz_denoise_level2.wav" target="_blank" rel="noopener">16kHz_denoise_level2.wav</a></p>
+<audio id="audio" controls preload="none"><br><source id="16kHz_origin" src="https://raw.githubusercontent.com/guoxiucai/AudioAndVideo/master/Resourses/16kHz_denoise_level2.wav"><br></audio>
+
+<p><a href="https://raw.githubusercontent.com/guoxiucai/AudioAndVideo/master/Resourses/48KHz_rnn_origin.wav" target="_blank" rel="noopener">48KHz_rnn_origin.wav</a></p>
+<audio id="audio" controls preload="none"><br><source id="16kHz_origin" src="https://raw.githubusercontent.com/guoxiucai/AudioAndVideo/master/Resourses/48KHz_rnn_origin.wav"><br></audio>
+
+<p><a href="https://raw.githubusercontent.com/guoxiucai/AudioAndVideo/master/Resourses/48KHz_rnn_denoise.wav" target="_blank" rel="noopener">48KHz_rnn_denoise.wav</a></p>
+<audio id="audio" controls preload="none"><br><source id="16kHz_origin" src="https://raw.githubusercontent.com/guoxiucai/AudioAndVideo/master/Resourses/48KHz_rnn_denoise.wav"><br></audio>
+
+<p>通过我们的主观听觉感受，未开启降噪功能时可以明显听到背景杂音（键盘敲击声，远处人的讨论说话声），开启降噪功能之后背景噪音明显减弱或没有，对应的录音者的声音明显凸显出来。</p>
+<h4 id="3-2-时域对比"><a href="#3-2-时域对比" class="headerlink" title="3.2 时域对比"></a>3.2 时域对比</h4><p>用<a href="https://www.audacityteam.org/" target="_blank" rel="noopener">Audacity</a>分析原声音、webrtc_level1和webrtc_level2的波形图得到的时域对比如下</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/aDo39awklGpjnd8N8zh6ZHPickQgFjbmR6yfup9qq540OILb7V7EkibCIMF1Tbx61uCMMLyc8pBF2KTr8eQpTUgw/0?wx_fmt=png" alt="webrtc时域对比图片"></p>
+<p>上图中蓝色部分是原始声音的音频波形图，红色部分是采用webrtc_level1进行降噪处理之后的波形图， 绿色部分是采用了webrtc_level2进行降噪处理之后的波形图。从时域波形图对比上可以看到开启降噪逻辑之后波形更加清晰了，噪音部分的振幅明显表变小了很多，降噪效果比较明显。</p>
+<h4 id="3-3-频域对比"><a href="#3-3-频域对比" class="headerlink" title="3.3 频域对比"></a>3.3 频域对比</h4><p>用Audacity分析原声音、webrtc_level1和webrtc_level2的频谱图得到的频域对比如下<br><img src="https://mmbiz.qpic.cn/mmbiz_png/aDo39awklGpjnd8N8zh6ZHPickQgFjbmR5a4qN5QmhA5duicnJXoAgQXwPKDQ8QqH4Nro1NcTbblAssAgF7TCO5g/0?wx_fmt=png" alt="webrtc频域图片"></p>
+<p>上图中第一行是原始音频的频谱图，第二行是采用webrtc_level1进行降噪处理之后的频谱图， 第三行是采用了webrtc_level2进行降噪处理之后的频谱图。</p>
+<p>作为对比RNNoise降噪前后的频谱图如下<br><img src="https://mmbiz.qpic.cn/mmbiz_jpg/aDo39awklGpjnd8N8zh6ZHPickQgFjbmRtrBQFSNqPic4R8xfVsJTerW7yO3eb3tzDoV5uXFCWQzTYPMkbMdl0Zg/0?wx_fmt=jpeg" alt="RNN频域图片"></p>
+<p>从上面的频谱对比图中我们可以看出降噪后，噪音部分的亮度（能量值）明显表变小了很多，噪音的频谱被去除掉，音频数据的原始数据更加清晰突出，降噪效果比较明显。</p>
+<h4 id="3-4-PESQ"><a href="#3-4-PESQ" class="headerlink" title="3.4 PESQ"></a>3.4 PESQ</h4><p>PESQ是更加量化的音频质量的评价参考，对于给出的音频，可以综合给出一个具体的分数值表征音频的质量，感兴趣的参考。</p>
+<ol>
+<li>ITU-T P.862</li>
+<li><a href="https://en.wikipedia.org/wiki/Perceptual_Evaluation_of_Audio_Quality" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Perceptual_Evaluation_of_Audio_Quality</a></li>
+</ol>
+<h3 id="0x04-小结"><a href="#0x04-小结" class="headerlink" title="0x04 小结"></a>0x04 小结</h3><p>从业务问题背景出发，本文主要介绍移动端音频降噪方案实践，重点介绍了基于WebRTC中降噪模块实现的降噪方案，最后给出了几种降噪效果分析参考方法。</p>
+<h3 id="欢迎大家到我的公众号留言交流"><a href="#欢迎大家到我的公众号留言交流" class="headerlink" title="欢迎大家到我的公众号留言交流"></a>欢迎大家到我的公众号留言交流</h3><p><img src="https://mmbiz.qpic.cn/mmbiz_png/aDo39awklGpc45I80p0s8n1okrGkOT1mnicMFxuUGRh0icyicLyEquLzJCKoAKdcr7tNPQfpwYMGhCVUE1YQ58OmA/0?wx_fmt=png" alt="公众号"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/31/audio-characterization-in-digital-world/" rel="next" title="数字世界中的声音表征">
+                <i class="fa fa-chevron-left"></i> 数字世界中的声音表征
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">郭秀才</p>
+              <p class="site-description motion-element" itemprop="description">郭秀才的技术随笔，iOS开发，移动端音视频，跨平台开发。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#0x00-引言"><span class="nav-number">1.</span> <span class="nav-text">0x00 引言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x01-业务背景"><span class="nav-number">2.</span> <span class="nav-text">0x01 业务背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x02-移动端音频降噪实践"><span class="nav-number">3.</span> <span class="nav-text">0x02 移动端音频降噪实践</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-目标和原理"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 目标和原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-降噪实践"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 降噪实践</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x03-降噪效果分析"><span class="nav-number">4.</span> <span class="nav-text">0x03 降噪效果分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-主观感受"><span class="nav-number">4.1.</span> <span class="nav-text">3.1 主观感受</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-时域对比"><span class="nav-number">4.2.</span> <span class="nav-text">3.2 时域对比</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-频域对比"><span class="nav-number">4.3.</span> <span class="nav-text">3.3 频域对比</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-PESQ"><span class="nav-number">4.4.</span> <span class="nav-text">3.4 PESQ</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x04-小结"><span class="nav-number">5.</span> <span class="nav-text">0x04 小结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#欢迎大家到我的公众号留言交流"><span class="nav-number">6.</span> <span class="nav-text">欢迎大家到我的公众号留言交流</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭秀才</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
