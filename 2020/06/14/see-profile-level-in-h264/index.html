@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="referrer" content="never">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="H.264,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="肉眼快速从H.264裸流里看出其Profile和Level">
+<meta name="keywords" content="H.264">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从H.264码流中一眼读出其Profile和Level">
+<meta property="og:url" content="http://yoursite.com/2020/06/14/see-profile-level-in-h264/index.html">
+<meta property="og:site_name" content="郭秀才聊技术">
+<meta property="og:description" content="肉眼快速从H.264裸流里看出其Profile和Level">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/guoxiucai/AudioAndVideo/master/Resourses/images/SE04/001.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/guoxiucai/AudioAndVideo/master/Resourses/images/SE04/002.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/guoxiucai/AudioAndVideo/master/Resourses/images/SE04/003.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/guoxiucai/AudioAndVideo/master/Resourses/images/SE04/004.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/guoxiucai/AudioAndVideo/master/Resourses/images/SE04/005.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/guoxiucai/AudioAndVideo/master/Resourses/images/SE04/006.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/guoxiucai/AudioAndVideo/master/Resourses/images/SE04/007.png">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/aDo39awklGpc45I80p0s8n1okrGkOT1mnicMFxuUGRh0icyicLyEquLzJCKoAKdcr7tNPQfpwYMGhCVUE1YQ58OmA/0?wx_fmt=png">
+<meta property="og:updated_time" content="2020-06-14T14:37:40.197Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从H.264码流中一眼读出其Profile和Level">
+<meta name="twitter:description" content="肉眼快速从H.264裸流里看出其Profile和Level">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/guoxiucai/AudioAndVideo/master/Resourses/images/SE04/001.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/06/14/see-profile-level-in-h264/">
+
+
+
+
+
+  <title>从H.264码流中一眼读出其Profile和Level | 郭秀才聊技术</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">郭秀才聊技术</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">移动开发，音视频，跨平台，技术随笔</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/14/see-profile-level-in-h264/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="郭秀才">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="郭秀才聊技术">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">从H.264码流中一眼读出其Profile和Level</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-14T20:06:55+08:00">
+                2020-06-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          <span> ｜ </span><span class="fa fa-user-o"> </span><span style="color:#222;"> 郭秀才</span> 
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/音视频/" itemprop="url" rel="index">
+                    <span itemprop="name">音视频</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  肉眼快速从H.264裸流里看出其Profile和Level
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>H.264是目前业界使用最多的视频编码格式，广泛应用于直播、视频会议、在线教育和远程医疗等领域。本篇分享的文章假设你已经对H.264已经有了一些基本的了解，例如已经知道什么是SPS和PPS，知道什么是I帧、P帧和B帧，知道了NALU的抽象概念，知道了Profile和Level的概念，否则本篇文章可能暂时不适合你。</p>
+<p>Profile和Level是H.264中一个非常重要的概念，Profile用于确定视频编码过程中帧间压缩使用的算法（例如是否包含B帧、CABAC支持、颜色空间支持等），Profile越高，就说明采用了越高级的压缩特性，对应的对编解码硬件的要求也越高；Level是对视频本身特性的一些描述（码率，分辨率，fps等），Level越高，视频的码率、分辨率、fps越高。下面两张图来自<a href="https://en.wikipedia.org/wiki/Advanced_Video_Coding" target="_blank" rel="noopener">维基百科</a>，分别对应了不同的Profiel和Level支持的能力和特性。</p>
+<p><img src="https://raw.githubusercontent.com/guoxiucai/AudioAndVideo/master/Resourses/images/SE04/001.jpg" alt="H264 Profile"></p>
+<p><img src="https://raw.githubusercontent.com/guoxiucai/AudioAndVideo/master/Resourses/images/SE04/002.jpg" alt="H264 Level"></p>
+<p>对于H.264的Profile和Level比较专业化（你这么去描述，行业里的人会认为你很专业）的描述是：Profile@Level，例如<a href="mailto:Main@4.2" target="_blank" rel="noopener">Main@4.2</a>，<a href="mailto:Baseline@3.1" target="_blank" rel="noopener">Baseline@3.1</a>，<a href="mailto:High@5.0" target="_blank" rel="noopener">High@5.0</a>。</p>
+<p>我们知道，H.264对于计算机来说，本质上其实就是一连串随着时间推移的比特流，至于这些比特流分别代表什么意义，制定H.264标准的那帮家伙给定义好了，大家只要都遵守这个标准就可以了。我们如何从一连串的H.264比特流里快速地读出其Profile和Level呢，这是本篇的重点。</p>
+<p>在H.264标准中，Profile和Level信息是定义在SPS NALU中的，SPS又是H.264的第一个NALU，所以知道了SPS这个NALU中每一个字节的意义就可以很快地从中分辨出Profile和Level。</p>
+<p>下图是H.264官方标准中对于SPS RBSP的定义。</p>
+<p><img src="https://raw.githubusercontent.com/guoxiucai/AudioAndVideo/master/Resourses/images/SE04/003.png" alt="SPS RBSP"></p>
+<p>PS：H.264的官方标准定义参考：<a href="https://raw.githubusercontent.com/guoxiucai/AudioAndVideo/master/Resourses/images/SE04/H.264官方中文版.pdf" target="_blank" rel="noopener">H.264标准</a></p>
+<p>根据H.264标准定义，SPS的RBSP，第1个字节和3个字节分别代表profile_idc和了level_idc信息。如果加上起始码（Annex-B格式）的3或4个字节，再加上1个字节的NALU Header，那一个H.264裸流的第6（或5）个字节就是profile_idc，第8（或7）个字节就是Level_idc，只要读出这两个字节的数值就可以快速方便地得到这个H.264流的Profile和Level。</p>
+<p><img src="https://raw.githubusercontent.com/guoxiucai/AudioAndVideo/master/Resourses/images/SE04/004.png" alt="Profile &amp; Level byte"></p>
+<p><strong>profile_idc字段各值代表的含义如下。</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">profile_idc（十进制）</th>
+<th style="text-align:left">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">66</td>
+<td style="text-align:left">Baseline</td>
+</tr>
+<tr>
+<td style="text-align:left">77</td>
+<td style="text-align:left">Main</td>
+</tr>
+<tr>
+<td style="text-align:left">88</td>
+<td style="text-align:left">Extended</td>
+</tr>
+<tr>
+<td style="text-align:left">100</td>
+<td style="text-align:left">High (FRExt)</td>
+</tr>
+<tr>
+<td style="text-align:left">110</td>
+<td style="text-align:left">High 10 (FRExt)</td>
+</tr>
+<tr>
+<td style="text-align:left">122</td>
+<td style="text-align:left">High 4:2:2 (FRExt)</td>
+</tr>
+<tr>
+<td style="text-align:left">166</td>
+<td style="text-align:left">High 4:4:4 (FRExt)</td>
+</tr>
+</tbody>
+</table>
+<p>实际使用中，Baseline，Main和High Profile比较常见，我们只需要记住几个关键的数字即可。66：Baseline，77：Main，&gt;=100：High</p>
+<p><strong>level_idc字段代表的含义如下。</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">level_idc（十进制）</th>
+<th style="text-align:left">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">10</td>
+<td style="text-align:left">1 (supports only QCIF format and below  with 380160 samples/sec)</td>
+</tr>
+<tr>
+<td style="text-align:left">1</td>
+<td style="text-align:left">1.1 (CIF and below. 768000 samples/sec)</td>
+</tr>
+<tr>
+<td style="text-align:left">12</td>
+<td style="text-align:left">1.2 (CIF and below. 1536000 samples/sec)</td>
+</tr>
+<tr>
+<td style="text-align:left">13</td>
+<td style="text-align:left">1.3 (CIF and below. 3041280 samples/sec)</td>
+</tr>
+<tr>
+<td style="text-align:left">20</td>
+<td style="text-align:left">2 (CIF and below. 3041280 samples/sec)</td>
+</tr>
+<tr>
+<td style="text-align:left">21</td>
+<td style="text-align:left">2.1 (Supports HHR formats. Enables Interlace support. 5068800 samples/sec)</td>
+</tr>
+<tr>
+<td style="text-align:left">22</td>
+<td style="text-align:left">2.2 (Supports SD/4CIF formats. Enables Interlace support. 5184000 samples/sec)</td>
+</tr>
+<tr>
+<td style="text-align:left">30</td>
+<td style="text-align:left">3 (Supports SD/4CIF formats. Enables Interlace support. 10368000 samples/sec)</td>
+</tr>
+<tr>
+<td style="text-align:left">31</td>
+<td style="text-align:left">3.1 (Supports 720p HD format. Enables Interlace support. 27648000 samples/sec)</td>
+</tr>
+<tr>
+<td style="text-align:left">32</td>
+<td style="text-align:left">3.2 (Supports SXGA format. Enables Interlace support. 55296000 samples/sec)</td>
+</tr>
+<tr>
+<td style="text-align:left">40</td>
+<td style="text-align:left">4 (Supports 2Kx1K format. Enables Interlace support. 62914560 samples/sec)</td>
+</tr>
+<tr>
+<td style="text-align:left">41</td>
+<td style="text-align:left">4.1 (Supports 2Kx1K format. Enables Interlace support. 62914560 samples/sec)</td>
+</tr>
+<tr>
+<td style="text-align:left">42</td>
+<td style="text-align:left">4.2 (Supports 2Kx1K format. Frame coding only. 125829120 samples/sec)</td>
+</tr>
+<tr>
+<td style="text-align:left">50</td>
+<td style="text-align:left">5 (Supports 3672x1536 format. Frame coding only. 150994944 samples/sec)</td>
+</tr>
+<tr>
+<td style="text-align:left">51</td>
+<td style="text-align:left">5.1 (Supports 4096x2304 format. Frame coding only. 251658240 samples/sec)</td>
+</tr>
+</tbody>
+</table>
+<p>Level很简单，level_idc的十进制数值除以10即是H.264的Level值。</p>
+<p>结合上面三个表格即可快速计算出Profile和Level信息，下面是三个例子。</p>
+<p><strong>例子：码流1</strong></p>
+<p><img src="https://raw.githubusercontent.com/guoxiucai/AudioAndVideo/master/Resourses/images/SE04/005.png" alt="SPS RBSP"></p>
+<p>Profile = 0x42 = 66 = Baseline, Level = 0x1F = 31 = 3.1; 所以该码流可以描述为<a href="mailto:Baseline@L3.1" target="_blank" rel="noopener">Baseline@L3.1</a></p>
+<p><strong>例子：码流2</strong></p>
+<p><img src="https://raw.githubusercontent.com/guoxiucai/AudioAndVideo/master/Resourses/images/SE04/006.png" alt="SPS RBSP"></p>
+<p>Profile = 0x4D = 77 = Main, Level = 0x28 = 40 = 4.0; 所以该码流可以描述为<a href="mailto:Main@L4.0" target="_blank" rel="noopener">Main@L4.0</a></p>
+<p><strong>例子：码流3</strong></p>
+<p><img src="https://raw.githubusercontent.com/guoxiucai/AudioAndVideo/master/Resourses/images/SE04/007.png" alt="SPS RBSP"></p>
+<p>Profile = 0x64 = 100 = High, Level = 0x28 = 40 = 4.0; 所以该码流可以描述为<a href="mailto:High@L4.0" target="_blank" rel="noopener">High@L4.0</a></p>
+<h3 id="欢迎大家到我的公众号留言交流"><a href="#欢迎大家到我的公众号留言交流" class="headerlink" title="欢迎大家到我的公众号留言交流"></a>欢迎大家到我的公众号留言交流</h3><p><img src="https://mmbiz.qpic.cn/mmbiz_png/aDo39awklGpc45I80p0s8n1okrGkOT1mnicMFxuUGRh0icyicLyEquLzJCKoAKdcr7tNPQfpwYMGhCVUE1YQ58OmA/0?wx_fmt=png" alt="公众号"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/H-264/" rel="tag"># H.264</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/06/07/audio-noise-suppression-mobile-devlep/" rel="next" title="闹中取静——移动端音频降噪实践">
+                <i class="fa fa-chevron-left"></i> 闹中取静——移动端音频降噪实践
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">郭秀才</p>
+              <p class="site-description motion-element" itemprop="description">郭秀才的技术随笔，iOS开发，移动端音视频，跨平台开发。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#欢迎大家到我的公众号留言交流"><span class="nav-number">1.</span> <span class="nav-text">欢迎大家到我的公众号留言交流</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭秀才</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
